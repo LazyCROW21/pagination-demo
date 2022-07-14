@@ -1,0 +1,72 @@
+<div class="container">
+  <h1>Pagination Demo</h1>
+  <hr>
+  <div class="d-flex justify-content-end my-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Show
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><button class="dropdown-item" [ngClass]="{ active: limit === 10 }" type="button"
+            (click)="changeLimit(10)">10</button></li>
+        <li><button class="dropdown-item" [ngClass]="{ active: limit === 20 }" type="button"
+            (click)="changeLimit(20)">20</button></li>
+        <li><button class="dropdown-item" [ngClass]="{ active: limit === 50 }" type="button"
+            (click)="changeLimit(50)">50</button></li>
+        <li><button class="dropdown-item" [ngClass]="{ active: limit === 100 }" type="button"
+            (click)="changeLimit(100)">100</button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Model</th>
+          <th>Manufacturer</th>
+          <th>Release Year</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider" [@listAnimation]="cars.length" *ngIf="loading else carList">
+        <td colspan="4">Loading...</td>
+      </tbody>
+      <ng-template #carList>
+        <tbody class="table-group-divider" [@listAnimation]="cars.length">
+          <tr *ngFor="let car of cars">
+            <td>{{ car.id }}</td>
+            <td>{{ car.model }}</td>
+            <td>{{ car.maker }}</td>
+            <td>{{ car.year }}</td>
+          </tr>
+        </tbody>
+      </ng-template>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      Page {{ page }} of {{ getTotalPages() }}
+    </div>
+    <div class="col-6">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [ngClass]="{ disabled: page === 1 }">
+            <a class="page-link" (click)="changePage(page - 1)">Previous</a>
+          </li>
+          <li *ngFor="let pg of getLeftPages()" class="page-item">
+            <a class="page-link" (click)="changePage(pg)">{{ pg }}</a>
+          </li>
+          <li class="page-item active"><a class="page-link">{{ page }}</a></li>
+          <li *ngFor="let pg of getRightPages()" class="page-item">
+            <a class="page-link" (click)="changePage(pg)">{{ pg }}</a>
+          </li>
+          <li class="page-item" [ngClass]="{ disabled: page === getTotalPages() }">
+            <a class="page-link" (click)="changePage(page + 1)">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="col-3"></div>
+  </div>
+
+</div>
